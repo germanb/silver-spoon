@@ -23,17 +23,20 @@ public class ImageCompareUtils {
         imOperation.addImage(aFile.getAbsolutePath(), bFile.getAbsolutePath(), outFile.getAbsolutePath());
 
         try {
+
             compareCmd.run(imOperation);
 
         } catch (CommandException e) {
-            System.out.println("[OUT] - " + arrayListOutputConsumer.getOutput());
-            System.out.println("[OUT] - " + arrayListErrorConsumer.getOutput());
+            if (!arrayListOutputConsumer.getOutput().isEmpty()) {
+                System.out.println("[ERROR] - " + arrayListOutputConsumer.getOutput());
+            }
+
+            if (!arrayListErrorConsumer.getOutput().isEmpty()) {
+                System.out.println("[ERROR] - " + aFile.getName() + " differs by " + arrayListErrorConsumer.getOutput());
+            }
 
             if (e.getReturnCode() != -1) {
                 e.printStackTrace();
-            } else {
-                System.out.println("differs");
-
             }
         } catch (Exception e) {
             e.printStackTrace();

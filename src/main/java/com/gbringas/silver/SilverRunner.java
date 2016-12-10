@@ -30,13 +30,17 @@ public class SilverRunner {
         SpoonSummary spoonSummaryCompare = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
                 FileUtils.getFile(parsedArgs.revisionResultFile.toString() + "/result.json")), SpoonSummary.class);
 
-
-        System.out.println("[INFO] Creating output dir.");
-
+        
         if (output.exists() || output.mkdirs()) {
 
             for (Map.Entry<String, DeviceResult> entry : spoonSummaryBase.getResults().entrySet()) {
-                HtmlDeviceCompare.from(entry.getValue(), spoonSummaryCompare.getResults().get(entry.getKey()), output.toPath());
+                DeviceResult deviceResultCompare = spoonSummaryCompare.getResults().get(entry.getKey());
+                if (deviceResultCompare == null) {
+                    System.out.println("[ERROR] - No matching compare version of device " + entry.getKey());
+                    continue;
+                }
+
+                HtmlDeviceCompare.from(entry.getValue(), deviceResultCompare, output.toPath());
             }
 
         } else {
