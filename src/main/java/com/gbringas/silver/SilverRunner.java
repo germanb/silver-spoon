@@ -30,7 +30,7 @@ public class SilverRunner {
         SpoonSummary spoonSummaryCompare = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
                 FileUtils.getFile(parsedArgs.revisionResultFile.toString() + "/result.json")), SpoonSummary.class);
 
-        
+
         if (output.exists() || output.mkdirs()) {
 
             for (Map.Entry<String, DeviceResult> entry : spoonSummaryBase.getResults().entrySet()) {

@@ -25,13 +25,12 @@ public class ImageCompareUtils {
         try {
 
             compareCmd.run(imOperation);
+            System.out.println("[OK] - " + aFile.getName() + " match with compare version ");
 
         } catch (CommandException e) {
             if (!arrayListOutputConsumer.getOutput().isEmpty()) {
                 System.out.println("[ERROR] - " + arrayListOutputConsumer.getOutput());
-            }
-
-            if (!arrayListErrorConsumer.getOutput().isEmpty()) {
+            } else if (!arrayListErrorConsumer.getOutput().isEmpty()) {
                 System.out.println("[ERROR] - " + aFile.getName() + " differs by " + arrayListErrorConsumer.getOutput());
             }
 
@@ -39,7 +38,7 @@ public class ImageCompareUtils {
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("[ERROR] - " + e.getMessage());
         }
     }
 }
