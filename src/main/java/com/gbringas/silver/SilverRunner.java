@@ -22,6 +22,21 @@ public class SilverRunner {
 
         jc.parse(args);
 
+        ApkGenerator.generateTestApk(parsedArgs.baseDir.toString());
+
+        ApkGenerator.generateApk(parsedArgs.baseDir.toString());
+
+        //build test apk
+
+
+        //chequear con q modo se invocó
+
+        //segun eso llamar al ejecutor
+        //TestExecutor.record("..");
+
+        //si es modo comparar continuar. sino salir.
+
+
         output = new File(parsedArgs.outputResultFile.toUri());
 
         SpoonSummary spoonSummaryBase = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
@@ -51,6 +66,10 @@ public class SilverRunner {
 
 
     static class CommandLineArgs {
+        @Parameter(names = {"--baseDir"}, description = "Base dir", converter = PathConverter.class, required = true)
+        //
+        public Path baseDir;
+
         @Parameter(names = {"--base"}, description = "Base result json", converter = PathConverter.class, required = true)
         //
         public Path baseResultFile;
