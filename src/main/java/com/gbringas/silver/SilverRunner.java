@@ -28,8 +28,20 @@ public class SilverRunner {
 
         //build test apk
 
+        if ("reference".equalsIgnoreCase(parsedArgs.mode)) {
+            TestExecutor.record(parsedArgs.baseDir + "/app/build/outputs/apk/app-debug.apk",
+                    parsedArgs.baseDir + "/app/build/outputs/apk/app-debug-androidTest.apk");
+            System.exit(0);
+        } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
+            //TODO: modificar directorios de salida
+            TestExecutor.record(parsedArgs.baseDir + "/app/build/outputs/apk/app-debug.apk",
+                    parsedArgs.baseDir + "/app/build/outputs/apk/app-debug-androidTest.apk");
+        } else {
+            System.out.println("[ERROR] - Invalid option.");
+            System.exit(1);
+        }
 
-        //chequear con q modo se invocó
+        //chequear con q modo se invocó test o reference
 
         //segun eso llamar al ejecutor
         //TestExecutor.record("..");
@@ -66,6 +78,10 @@ public class SilverRunner {
 
 
     static class CommandLineArgs {
+
+        @Parameter(names = {"--mode"}, description = "execution mode", required = true)
+        public String mode;
+
         @Parameter(names = {"--baseDir"}, description = "Base dir", converter = PathConverter.class, required = true)
         //
         public Path baseDir;
