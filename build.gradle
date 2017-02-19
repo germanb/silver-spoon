@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group = 'com.gbringas.silverspoon'
+version = '1.0-SNAPSHOT'
+
+description = """"""
+
+mainClassName = 'com.gbringas.silver.SilverRunner'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.beust:jcommander:1.58'
+    compile 'org.im4java:im4java:1.4.0'
+    compile 'com.squareup.spoon:spoon-runner:1.7.0'
+}
+
+repositories {
+    jcenter()
+}
+
+tasks.getByName('assemble').dependsOn('shadowJar')
+
+artifacts {
+    archives shadowJar
+}

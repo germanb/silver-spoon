@@ -2,6 +2,7 @@ package com.gbringas.silver;
 
 public class ApkGenerator {
 
+    //TODO: podría soportar que reciba un modulo en particular.
     public static void generateTestApk(String directory) {
         GradleExecutor.execute(directory, " assembleAndroidTest");
     }
