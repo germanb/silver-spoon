@@ -27,35 +27,31 @@ public class SilverRunner {
         ApkGenerator.generateApk(parsedArgs.baseDir.toString());
 
         //build test apk
+        String filesOutput = "/app/build/outputs/";
+        String referenceDirectory = parsedArgs.baseDir + filesOutput + "reports/reference/";
+        String testDirectory = parsedArgs.baseDir + filesOutput + "reports/test/";
 
         if ("reference".equalsIgnoreCase(parsedArgs.mode)) {
-            TestExecutor.record(parsedArgs.baseDir + "/app/build/outputs/apk/app-debug.apk",
-                    parsedArgs.baseDir + "/app/build/outputs/apk/app-debug-androidTest.apk");
+            TestExecutor.record(parsedArgs.baseDir + filesOutput + "apk/app-debug.apk",
+                    parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk",
+                    referenceDirectory);
             System.exit(0);
         } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
-            //TODO: modificar directorios de salida
-            TestExecutor.record(parsedArgs.baseDir + "/app/build/outputs/apk/app-debug.apk",
-                    parsedArgs.baseDir + "/app/build/outputs/apk/app-debug-androidTest.apk");
+            TestExecutor.record(parsedArgs.baseDir + filesOutput + "apk/app-debug.apk",
+                    parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk",
+                   testDirectory);
         } else {
             System.out.println("[ERROR] - Invalid option.");
             System.exit(1);
         }
 
-        //chequear con q modo se invocó test o reference
-
-        //segun eso llamar al ejecutor
-        //TestExecutor.record("..");
-
-        //si es modo comparar continuar. sino salir.
-
-
-        output = new File(parsedArgs.outputResultFile.toUri());
+        output = new File(parsedArgs.baseDir + filesOutput + "reports/output/");
 
         SpoonSummary spoonSummaryBase = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
-                FileUtils.getFile(parsedArgs.baseResultFile.toString() + "/result.json")), SpoonSummary.class);
+                FileUtils.getFile(referenceDirectory + "/result.json")), SpoonSummary.class);
 
         SpoonSummary spoonSummaryCompare = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
-                FileUtils.getFile(parsedArgs.revisionResultFile.toString() + "/result.json")), SpoonSummary.class);
+                FileUtils.getFile(testDirectory + "result.json")), SpoonSummary.class);
 
 
         if (output.exists() || output.mkdirs()) {
@@ -86,17 +82,6 @@ public class SilverRunner {
         //
         public Path baseDir;
 
-        @Parameter(names = {"--base"}, description = "Base result json", converter = PathConverter.class, required = true)
-        //
-        public Path baseResultFile;
-
-        @Parameter(names = {"--revision"}, description = "Compare result json", converter = PathConverter.class, required = true)
-        //
-        public Path revisionResultFile;
-
-        @Parameter(names = {"--output"}, description = "Compare result json", converter = PathConverter.class, required = true)
-        //
-        public Path outputResultFile;
     }
 
 }
