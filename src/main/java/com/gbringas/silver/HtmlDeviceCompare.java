@@ -3,8 +3,9 @@ package com.gbringas.silver;
 import com.squareup.spoon.DeviceResult;
 import com.squareup.spoon.DeviceTest;
 import com.squareup.spoon.DeviceTestResult;
+import org.apache.commons.io.FileUtils;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.Map;
 public final class HtmlDeviceCompare {
 
     public static HtmlDeviceCompare from(DeviceResult original, DeviceResult newResult, Path output) {
+
+        String html = "<html> <body>";
 
         System.out.println("Start compare...");
 
@@ -53,9 +56,22 @@ public final class HtmlDeviceCompare {
                 outFile.getParentFile().mkdirs();
                 ImageCompareUtils.compare(originalScreenshots.get(i), newScreenshots.get(i), outFile);
 
+                html += "<img src=\"" + outFile + "\" title=\"\" data-original-title=\"Screen 2\">";
 
             }
         }
+
+        html += "</body></html>";
+
+        File htmlFile = new File(output.toAbsolutePath() + "/html/index.html");
+
+
+        try {
+            FileUtils.writeStringToFile(htmlFile, html);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         return null;
     }
