@@ -28,7 +28,7 @@ public final class HtmlDeviceCompare {
 
             File htmlFile = new File(output.toAbsolutePath() + "/" + entry.getKey()
                     + "/html/index.html");
-            List<DeviceCompareResult> deviceCompareResults = new ArrayList<DeviceCompareResult>();
+            DeviceCompareResult deviceCompareResult = new DeviceCompareResult();
 
             for (Map.Entry<DeviceTest, DeviceTestResult> entry1 : original.getTestResults().entrySet()) {
 
@@ -57,9 +57,12 @@ public final class HtmlDeviceCompare {
                     continue;
                 }
 
+                deviceCompareResult.device = entry.getKey();
+                deviceCompareResult.screenShoots = new ArrayList<DeviceScreenShoot>();
 
                 for (int i = 0; i < originalScreenshots.size(); i++) {
-                    DeviceCompareResult deviceCompareResult = new DeviceCompareResult();
+
+                    DeviceScreenShoot screenShoot = new DeviceScreenShoot();
 
                     //TODO: devovler % de diff para completar testsPassed
                     String name = originalScreenshots.get(i).getName();
@@ -69,12 +72,13 @@ public final class HtmlDeviceCompare {
                     File outFile = new File(output.toAbsolutePath() + testPath + "/" + name);
 
                     outFile.getParentFile().mkdirs();
-                    ImageCompareUtils.compare(originalScreenshots.get(i), newScreenshots.get(i), outFile);
+                    boolean status = ImageCompareUtils.compare(originalScreenshots.get(i), newScreenshots.get(i), outFile);
 
-                    deviceCompareResult.originalScreenShoot = originalScreenshots.get(i).getAbsolutePath();
-                    deviceCompareResult.testScreenShoot = newScreenshots.get(i).getAbsolutePath();
-                    deviceCompareResult.compareScreenShoot = outFile.getAbsolutePath();
-                    deviceCompareResults.add(deviceCompareResult);
+                    screenShoot.originalScreenShoot = originalScreenshots.get(i).getAbsolutePath();
+                    screenShoot.testScreenShoot = newScreenshots.get(i).getAbsolutePath();
+                    screenShoot.compareScreenShoot = outFile.getAbsolutePath();
+                    screenShoot.status = status ? "OK" : "ERROR";
+                    deviceCompareResult.screenShoots.add(screenShoot);
 
 
                 }
@@ -82,7 +86,7 @@ public final class HtmlDeviceCompare {
 
             }
 
-            HtmlUtils.generateDeviceHtml(deviceCompareResults, htmlFile);
+            HtmlUtils.generateDeviceHtml(deviceCompareResult, htmlFile);
 
         }
         return null;

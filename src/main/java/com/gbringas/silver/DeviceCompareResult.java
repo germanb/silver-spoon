@@ -1,8 +1,10 @@
 package com.gbringas.silver;
 
+import java.util.List;
+
 public class DeviceCompareResult {
 
-    public String originalScreenShoot;
-    public String testScreenShoot;
-    public String compareScreenShoot;
+    public String device;
+    public List<DeviceScreenShoot> screenShoots;
+
 }

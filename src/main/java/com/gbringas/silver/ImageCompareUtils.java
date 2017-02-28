@@ -9,7 +9,7 @@ import org.im4java.process.ArrayListOutputConsumer;
 import java.io.File;
 
 public class ImageCompareUtils {
-    public static void compare(File aFile, File bFile, File outFile) {
+    public static boolean compare(File aFile, File bFile, File outFile) {
 
         CompareCmd compareCmd = new CompareCmd();
 
@@ -26,7 +26,7 @@ public class ImageCompareUtils {
 
             compareCmd.run(imOperation);
             System.out.println("[OK] - " + aFile.getName() + " match with compare version ");
-
+            return true;
         } catch (CommandException e) {
             if (!arrayListOutputConsumer.getOutput().isEmpty()) {
                 System.out.println("[ERROR] - " + arrayListOutputConsumer.getOutput());
@@ -40,5 +40,6 @@ public class ImageCompareUtils {
         } catch (Exception e) {
             System.out.println("[ERROR] - " + e.getMessage());
         }
+        return false;
     }
 }

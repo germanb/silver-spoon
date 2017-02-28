@@ -7,11 +7,10 @@ import com.squareup.spoon.html.HtmlRenderer;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.util.List;
 
 public class HtmlUtils {
 
-    public static void generateDeviceHtml(List<DeviceCompareResult> htmlDeviceCompare, File output) {
+    public static void generateDeviceHtml(DeviceCompareResult htmlDeviceCompare, File output) {
         MustacheFactory mustacheFactory = new DefaultMustacheFactory();
         Mustache mustache = mustacheFactory.compile("page/device.html");
 

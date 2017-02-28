@@ -15,14 +15,14 @@
     <body>
         <div class="container">
             <div class="hero-unit">
-                <h1>{{title}}</h1>
+                <h1>{{device}}</h1>
                 <p>{{subtitle1}}</p>
                 {{#subtitle2}}<p>{{subtitle2}}</p>{{/subtitle2}}
             </div>
 
 
 
-            {{#.}}
+            {{#screenShoots}}
             <div class="row" id="{{testId}}">
                 <div class="span12">
                     <ul class="thumbnails">
@@ -41,11 +41,12 @@
                                 <img src="{{compareScreenShoot}}" title="{{caption}}">
                             </a>
                         </li>
+                        {{status}}
                     </ul>
 
                 </div>
             </div>
-            {{/.}}
+            {{/screenShoots}}
         </div>
         <script type="text/javascript">
             $('.icon, .thumbnail img').tooltip({
