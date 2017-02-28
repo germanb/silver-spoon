@@ -12,7 +12,7 @@ public class HtmlUtils {
 
     public static void generateDeviceHtml(DeviceCompareResult htmlDeviceCompare, File output) {
         MustacheFactory mustacheFactory = new DefaultMustacheFactory();
-        Mustache mustache = mustacheFactory.compile("page/device.html");
+        Mustache mustache = mustacheFactory.compile("page/device-compare.html");
 
         renderMustacheToFile(mustache, htmlDeviceCompare, output);
 

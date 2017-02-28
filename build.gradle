@@ -23,7 +23,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.beust:jcommander:1.58'
     compile 'org.im4java:im4java:1.4.0'
-    compile 'com.squareup.spoon:spoon-runner:1.7.0'
+    compile 'com.squareup.spoon:spoon-runner:1.7.1'
 }
 
 repositories {
