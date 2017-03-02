@@ -15,6 +15,7 @@ public final class HtmlDeviceCompare {
 
     public static HtmlDeviceCompare from(SpoonSummary spoonSummaryBase, SpoonSummary spoonSummaryCompare, Path output) {
 
+
         for (Map.Entry<String, DeviceResult> entry : spoonSummaryBase.getResults().entrySet()) {
             DeviceResult newResult = spoonSummaryCompare.getResults().get(entry.getKey());
             if (spoonSummaryCompare == null) {
@@ -89,6 +90,8 @@ public final class HtmlDeviceCompare {
             HtmlUtils.generateDeviceHtml(deviceCompareResult, htmlFile);
 
         }
+        HtmlUtils.copyStaticAssets(output.toString());
+
         return null;
 
     }

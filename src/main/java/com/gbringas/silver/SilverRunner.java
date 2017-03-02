@@ -46,7 +46,6 @@ public class SilverRunner {
 
         output = new File(parsedArgs.baseDir + filesOutput + "reports/output/");
 
-        HtmlUtils.copyStaticAssets(output.getAbsolutePath());
 
         SpoonSummary spoonSummaryBase = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
                 FileUtils.getFile(referenceDirectory + "/result.json")), SpoonSummary.class);
