@@ -20,7 +20,7 @@ public class SilverRunner {
 
         jc.parse(args);
 
-        ApkGenerator.generateTestApk(parsedArgs.baseDir.toString());
+        ApkGenerator.generateTestApk(parsedArgs.baseDir.toString(), parsedArgs.module);
 
         ApkGenerator.generateApk(parsedArgs.baseDir.toString());
 
@@ -30,7 +30,10 @@ public class SilverRunner {
 
         if ("reference".equalsIgnoreCase(parsedArgs.mode)) {
             TestExecutor.record(parsedArgs.baseDir + filesOutput + "apk/app-debug.apk",
-                    parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk",
+                    parsedArgs.baseDir +
+                            //TODO: mejorar esto.
+                            (parsedArgs.module != null ? filesOutput.replace("app", parsedArgs.module) : filesOutput)
+                                    + "apk/app-debug-androidTest.apk",
                     referenceDirectory);
             System.exit(0);
         } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
@@ -60,6 +63,9 @@ public class SilverRunner {
             System.out.println("[ERROR] - Failed to create output dir.");
         }
 
+
+        //TODO: agregar si tiene diferencias si desea pisar o no el archivo
+        //TODO: soportar flavour
     }
 
 
@@ -72,6 +78,9 @@ public class SilverRunner {
         //
         public Path baseDir;
 
+        @Parameter(names = {"--module"}, description = "Module",  required = false)
+        //
+        public String module;
     }
 
 

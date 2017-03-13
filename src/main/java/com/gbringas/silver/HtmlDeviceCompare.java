@@ -78,7 +78,8 @@ public final class HtmlDeviceCompare {
                     screenShoot.originalScreenShoot = originalScreenshots.get(i).getAbsolutePath();
                     screenShoot.testScreenShoot = newScreenshots.get(i).getAbsolutePath();
                     screenShoot.compareScreenShoot = outFile.getAbsolutePath();
-                    screenShoot.status = status ? "OK" : "ERROR";
+                    //TODO: agregar texto ok tmb
+                    screenShoot.statusColor = status ? "background-color:#b9e9b9" : "background-color:#e9b9b9";
                     deviceCompareResult.screenShoots.add(screenShoot);
 
 

@@ -8,7 +8,16 @@ public class ApkGenerator {
 
     //TODO: podría soportar que reciba un modulo en particular.
     public static boolean generateTestApk(String directory) {
-        return execute(directory, " assembleAndroidTest");
+        return generateTestApk(directory, null);
+    }
+
+    public static boolean generateTestApk(String directory, String module) {
+        String command = "assembleAndroidTest";
+        if(module != null){
+            command = module + ":" + command;
+        }
+
+        return execute(directory, command);
     }
 
     public static boolean generateApk(String directory) {
@@ -17,7 +26,7 @@ public class ApkGenerator {
     }
 
     private static boolean execute(String directory, String command) {
-        String cmd = directory + "/gradlew" + command + " -p " + directory;
+        String cmd = directory + "/gradlew " + command + " -p " + directory;
 
         System.out.println(cmd);
 
