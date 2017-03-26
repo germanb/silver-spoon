@@ -22,26 +22,33 @@ public class SilverRunner {
 
         ApkGenerator.generateTestApk(parsedArgs.baseDir.toString(), parsedArgs.module);
 
-        ApkGenerator.generateApk(parsedArgs.baseDir.toString());
+        ApkGenerator.generateApk(parsedArgs.baseDir.toString(), parsedArgs.flavor);
 
         String filesOutput = "/app/build/outputs/";
         String referenceDirectory = parsedArgs.baseDir + filesOutput + "reports/reference/";
         String testDirectory = parsedArgs.baseDir + filesOutput + "reports/test/";
 
+        String testApk = parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk";
+        testApk = parsedArgs.module != null ? testApk.replaceAll("app", parsedArgs.module) : testApk;
+        String apk = parsedArgs.baseDir + filesOutput + "apk/app" +
+                (parsedArgs.flavor != null ? "-" + parsedArgs.flavor.toLowerCase() : "")
+                + "-debug.apk";
+
         if ("reference".equalsIgnoreCase(parsedArgs.mode)) {
-            TestExecutor.record(parsedArgs.baseDir + filesOutput + "apk/app-debug.apk",
-                    parsedArgs.baseDir +
-                            //TODO: mejorar esto.
-                            (parsedArgs.module != null ? filesOutput.replace("app", parsedArgs.module) : filesOutput)
-                                    + "apk/app-debug-androidTest.apk",
+
+            TestExecutor.record(apk,
+                    testApk,
                     referenceDirectory);
             System.exit(0);
         } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
-            TestExecutor.record(parsedArgs.baseDir + filesOutput + "apk/app-debug.apk",
-                    parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk",
+            TestExecutor.record(apk,
+                    testApk,
                     testDirectory);
         } else if ("compare".equalsIgnoreCase(parsedArgs.mode)) {
             System.out.println("Running compare");
+        } else if ("replaceBase".equalsIgnoreCase(parsedArgs.mode)) {
+            FileUtils.deleteDirectory(FileUtils.getFile(referenceDirectory));
+            FileUtils.copyDirectory(FileUtils.getFile(testDirectory), FileUtils.getFile(referenceDirectory));
         } else {
             System.out.println("[ERROR] - Invalid option.");
             System.exit(1);
@@ -81,6 +88,10 @@ public class SilverRunner {
         @Parameter(names = {"--module"}, description = "Module",  required = false)
         //
         public String module;
+
+        @Parameter(names = {"--flavor"}, description = "Flavor",  required = false)
+        //
+        public String flavor;
     }
 
 

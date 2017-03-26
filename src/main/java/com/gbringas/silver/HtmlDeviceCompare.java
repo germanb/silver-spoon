@@ -18,6 +18,7 @@ public final class HtmlDeviceCompare {
 
         for (Map.Entry<String, DeviceResult> entry : spoonSummaryBase.getResults().entrySet()) {
             DeviceResult newResult = spoonSummaryCompare.getResults().get(entry.getKey());
+
             if (spoonSummaryCompare == null) {
                 System.out.println("[ERROR] - No matching compare version of device " + entry.getKey());
                 continue;
@@ -30,6 +31,9 @@ public final class HtmlDeviceCompare {
             File htmlFile = new File(output.toAbsolutePath() + "/" + entry.getKey()
                     + "/index.html");
             DeviceCompareResult deviceCompareResult = new DeviceCompareResult();
+
+            deviceCompareResult.device = entry.getKey();
+            deviceCompareResult.screenShoots = new ArrayList<DeviceScreenShoot>();
 
             for (Map.Entry<DeviceTest, DeviceTestResult> entry1 : original.getTestResults().entrySet()) {
 
@@ -58,8 +62,7 @@ public final class HtmlDeviceCompare {
                     continue;
                 }
 
-                deviceCompareResult.device = entry.getKey();
-                deviceCompareResult.screenShoots = new ArrayList<DeviceScreenShoot>();
+
 
                 for (int i = 0; i < originalScreenshots.size(); i++) {
 

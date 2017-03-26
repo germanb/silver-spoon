@@ -1,5 +1,7 @@
 package com.gbringas.silver;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,9 +22,10 @@ public class ApkGenerator {
         return execute(directory, command);
     }
 
-    public static boolean generateApk(String directory) {
+    public static boolean generateApk(String directory, String flavor) {
+        flavor = flavor != null ? flavor : "";
         //TODO: revisar como llamo a esto
-        return execute(directory, " assembleDebug");
+        return execute(directory, " assemble" + StringUtils.capitalize(flavor) +"Debug --debug");
     }
 
     private static boolean execute(String directory, String command) {
