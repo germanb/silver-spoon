@@ -20,9 +20,13 @@ public class SilverRunner {
 
         jc.parse(args);
 
-        ApkGenerator.generateTestApk(parsedArgs.baseDir.toString(), parsedArgs.module);
+        if ("reference".equalsIgnoreCase(parsedArgs.mode) ||
+                "test".equalsIgnoreCase(parsedArgs.mode)) {
 
-        ApkGenerator.generateApk(parsedArgs.baseDir.toString(), parsedArgs.flavor);
+            ApkGenerator.generateTestApk(parsedArgs.baseDir.toString(), parsedArgs.module);
+
+            ApkGenerator.generateApk(parsedArgs.baseDir.toString(), parsedArgs.flavor);
+        }
 
         String filesOutput = "/app/build/outputs/";
         String referenceDirectory = parsedArgs.baseDir + filesOutput + "reports/reference/";

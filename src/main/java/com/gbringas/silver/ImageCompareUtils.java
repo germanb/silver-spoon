@@ -20,6 +20,7 @@ public class ImageCompareUtils {
 
         IMOperation imOperation = new IMOperation();
         imOperation.metric("AE");
+        //TODO: imOperation.fuzz((double) 50);
         imOperation.addImage(aFile.getAbsolutePath(), bFile.getAbsolutePath(), outFile.getAbsolutePath());
 
         try {
