@@ -43,6 +43,8 @@ public class SilverRunner {
             TestExecutor.record(apk,
                     testApk,
                     referenceDirectory);
+            System.out.println("[INFO] - Reference run OK.");
+
             System.exit(0);
         } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
             TestExecutor.record(apk,

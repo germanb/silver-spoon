@@ -25,7 +25,8 @@ public class ApkGenerator {
     public static boolean generateApk(String directory, String flavor) {
         flavor = flavor != null ? flavor : "";
         //TODO: revisar como llamo a esto
-        return execute(directory, " assemble" + StringUtils.capitalize(flavor) +"Debug --debug");
+        // --debug for debug
+        return execute(directory, " assemble" + StringUtils.capitalize(flavor) +"Debug ");
     }
 
     private static boolean execute(String directory, String command) {

@@ -26,7 +26,7 @@ public final class HtmlDeviceCompare {
             DeviceResult original = entry.getValue();
 
 
-            System.out.println("Start compare...");
+            System.out.println("Start compare " + entry.getKey());
 
             File htmlFile = new File(output.toAbsolutePath() + "/" + entry.getKey()
                     + "/index.html");
