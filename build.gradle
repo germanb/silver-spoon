@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'com.gbringas.silverspoon'
-version = '1.0-SNAPSHOT'
+version = '0.1'
 
 description = """"""
 

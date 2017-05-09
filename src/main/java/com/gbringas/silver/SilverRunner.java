@@ -20,21 +20,24 @@ public class SilverRunner {
 
         jc.parse(args);
 
+        String baseDir = (parsedArgs.baseDir == null) ? "." : parsedArgs.baseDir.toString();
+        String filesOutput = "/app/build/outputs/";
+        String referenceDirectory = baseDir + filesOutput + "reports/reference/";
+        String testDirectory = baseDir + filesOutput + "reports/test/";
+
         if ("reference".equalsIgnoreCase(parsedArgs.mode) ||
                 "test".equalsIgnoreCase(parsedArgs.mode)) {
 
-            ApkGenerator.generateTestApk(parsedArgs.baseDir.toString(), parsedArgs.module);
+            ApkGenerator.generateTestApk(baseDir, parsedArgs.module);
 
-            ApkGenerator.generateApk(parsedArgs.baseDir.toString(), parsedArgs.flavor);
+            ApkGenerator.generateApk(baseDir, parsedArgs.flavor);
         }
 
-        String filesOutput = "/app/build/outputs/";
-        String referenceDirectory = parsedArgs.baseDir + filesOutput + "reports/reference/";
-        String testDirectory = parsedArgs.baseDir + filesOutput + "reports/test/";
 
-        String testApk = parsedArgs.baseDir + filesOutput + "apk/app-debug-androidTest.apk";
+
+        String testApk = baseDir + filesOutput + "apk/app-debug-androidTest.apk";
         testApk = parsedArgs.module != null ? testApk.replaceAll("app", parsedArgs.module) : testApk;
-        String apk = parsedArgs.baseDir + filesOutput + "apk/app" +
+        String apk = baseDir + filesOutput + "apk/app" +
                 (parsedArgs.flavor != null ? "-" + parsedArgs.flavor.toLowerCase() : "")
                 + "-debug.apk";
 
@@ -43,24 +46,23 @@ public class SilverRunner {
             TestExecutor.record(apk,
                     testApk,
                     referenceDirectory);
-            System.out.println("[INFO] - Reference run OK.");
-
+            LogUtils.logInfo("Reference run OK.");
             System.exit(0);
         } else if ("test".equalsIgnoreCase(parsedArgs.mode)) {
             TestExecutor.record(apk,
                     testApk,
                     testDirectory);
         } else if ("compare".equalsIgnoreCase(parsedArgs.mode)) {
-            System.out.println("Running compare");
+            LogUtils.logInfo("Running compare");
         } else if ("replaceBase".equalsIgnoreCase(parsedArgs.mode)) {
             FileUtils.deleteDirectory(FileUtils.getFile(referenceDirectory));
             FileUtils.copyDirectory(FileUtils.getFile(testDirectory), FileUtils.getFile(referenceDirectory));
         } else {
-            System.out.println("[ERROR] - Invalid option.");
+            LogUtils.logError("[ERROR] - Invalid option.");
             System.exit(1);
         }
 
-        output = new File(parsedArgs.baseDir + filesOutput + "reports/output/");
+        output = new File(baseDir + filesOutput + "reports/output/");
 
 
         SpoonSummary spoonSummaryBase = JsonUtils.GSON.fromJson(FileUtils.readFileToString(
@@ -87,7 +89,7 @@ public class SilverRunner {
         @Parameter(names = {"--mode"}, description = "execution mode", required = true)
         public String mode;
 
-        @Parameter(names = {"--baseDir"}, description = "Base dir", converter = PathConverter.class, required = true)
+        @Parameter(names = {"--baseDir"}, description = "Base dir", converter = PathConverter.class)
         //
         public Path baseDir;
 
